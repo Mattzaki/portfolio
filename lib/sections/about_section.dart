@@ -125,15 +125,18 @@ class AboutSection extends StatelessWidget {
                 SizedBox(height: isSmallScreen ? 12 : 20),
                 
                 // Stats in stile retro-game
-                Wrap(
-                  spacing: isSmallScreen ? 8 : 16,
-                  runSpacing: isSmallScreen ? 16 : 20,
-                  alignment: WrapAlignment.spaceAround,
-                  children: [
-                    _buildStatItem(context, 'CREATIVITÀ', 85, isSmallScreen),
-                    _buildStatItem(context, 'CODING', 90, isSmallScreen),
-                    _buildStatItem(context, 'PROBLEM SOLVING', 88, isSmallScreen),
-                  ],
+                Container(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(child: _buildStatItem(context, 'CREATIVITÀ', 85, isSmallScreen)),
+                      SizedBox(width: isSmallScreen ? 4 : 8),
+                      Expanded(child: _buildStatItem(context, 'CODING', 90, isSmallScreen)),
+                      SizedBox(width: isSmallScreen ? 4 : 8),
+                      Expanded(child: _buildStatItem(context, 'PROBLEM SOLVING', 88, isSmallScreen)),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -153,10 +156,12 @@ class AboutSection extends StatelessWidget {
             fontSize: isSmallScreen ? 10 : 12,
           ),
           textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         SizedBox(height: isSmallScreen ? 4 : 8),
         Container(
-          width: isSmallScreen ? 80 : 100,
+          width: double.infinity,
           height: isSmallScreen ? 16 : 20,
           decoration: BoxDecoration(
             border: Border.all(
@@ -168,13 +173,18 @@ class AboutSection extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                width: (isSmallScreen ? 80 : 100) * (value / 100),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.secondary,
-                    ],
+                width: double.infinity,
+                child: FractionallySizedBox(
+                  widthFactor: value / 100,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.secondary,
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
