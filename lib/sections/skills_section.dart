@@ -5,8 +5,11 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 600;
+
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 32),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         border: Border.all(
@@ -27,95 +30,145 @@ class SkillsSection extends StatelessWidget {
             ).createShader(bounds),
             child: Text(
               'COMPETENZE',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              style: (isSmallScreen
+                ? Theme.of(context).textTheme.titleLarge
+                : Theme.of(context).textTheme.headlineMedium)?.copyWith(
                 color: Colors.white,
-                letterSpacing: 4,
+                letterSpacing: isSmallScreen ? 2 : 4,
               ),
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: isSmallScreen ? 20 : 40),
 
           // Formazione
-          _buildEducationSection(context),
-          const SizedBox(height: 40),
+          _buildEducationSection(context, isSmallScreen),
+          SizedBox(height: isSmallScreen ? 20 : 40),
 
           // Categorie di competenze
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Linguaggi di Programmazione
-              Expanded(
-                child: _buildSkillCategory(
-                  context,
-                  'LINGUAGGI',
-                  {
-                    'C/C++': 0.9,
-                    'Python': 0.85,
-                    'Java': 0.8,
-                    'TypeScript': 0.85,
-                    'JavaScript': 0.85,
-                  },
+          if (isSmallScreen) ...[
+            _buildSkillCategory(
+              context,
+              'LINGUAGGI',
+              {
+                'C/C++': 0.9,
+                'Python': 0.85,
+                'Java': 0.8,
+                'TypeScript': 0.85,
+                'JavaScript': 0.85,
+              },
+              isSmallScreen,
+            ),
+            const SizedBox(height: 16),
+            _buildSkillCategory(
+              context,
+              'WEB DEV',
+              {
+                'HTML/CSS': 0.9,
+                'Angular': 0.85,
+                'MySQL': 0.8,
+              },
+              isSmallScreen,
+            ),
+            const SizedBox(height: 16),
+            _buildSkillCategory(
+              context,
+              'AI & ML',
+              {
+                'Machine Learning': 0.85,
+                'Computer Vision': 0.8,
+                'PyTorch': 0.75,
+              },
+              isSmallScreen,
+            ),
+            const SizedBox(height: 16),
+            _buildSkillCategory(
+              context,
+              'SOFT SKILLS',
+              {
+                'Problem Solving': 0.9,
+                'Team Work': 0.85,
+                'Comunicazione': 0.85,
+              },
+              isSmallScreen,
+            ),
+          ] else ...[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _buildSkillCategory(
+                    context,
+                    'LINGUAGGI',
+                    {
+                      'C/C++': 0.9,
+                      'Python': 0.85,
+                      'Java': 0.8,
+                      'TypeScript': 0.85,
+                      'JavaScript': 0.85,
+                    },
+                    isSmallScreen,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 20),
-              // Web Development
-              Expanded(
-                child: _buildSkillCategory(
-                  context,
-                  'WEB DEV',
-                  {
-                    'HTML/CSS': 0.9,
-                    'Angular': 0.85,
-                    'MySQL': 0.8,
-                  },
+                const SizedBox(width: 20),
+                Expanded(
+                  child: _buildSkillCategory(
+                    context,
+                    'WEB DEV',
+                    {
+                      'HTML/CSS': 0.9,
+                      'Angular': 0.85,
+                      'MySQL': 0.8,
+                    },
+                    isSmallScreen,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // AI & ML
-              Expanded(
-                child: _buildSkillCategory(
-                  context,
-                  'AI & ML',
-                  {
-                    'Machine Learning': 0.85,
-                    'Computer Vision': 0.8,
-                    'PyTorch': 0.75,
-                  },
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _buildSkillCategory(
+                    context,
+                    'AI & ML',
+                    {
+                      'Machine Learning': 0.85,
+                      'Computer Vision': 0.8,
+                      'PyTorch': 0.75,
+                    },
+                    isSmallScreen,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 20),
-              // Soft Skills
-              Expanded(
-                child: _buildSkillCategory(
-                  context,
-                  'SOFT SKILLS',
-                  {
-                    'Problem Solving': 0.9,
-                    'Team Work': 0.85,
-                    'Comunicazione': 0.85,
-                  },
+                const SizedBox(width: 20),
+                Expanded(
+                  child: _buildSkillCategory(
+                    context,
+                    'SOFT SKILLS',
+                    {
+                      'Problem Solving': 0.9,
+                      'Team Work': 0.85,
+                      'Comunicazione': 0.85,
+                    },
+                    isSmallScreen,
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ],
       ),
     );
   }
 
-  Widget _buildEducationSection(BuildContext context) {
+  Widget _buildEducationSection(BuildContext context, bool isSmallScreen) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
         color: Colors.black87,
         border: Border.all(
           color: Theme.of(context).colorScheme.tertiary.withOpacity(0.5),
-          width: 2,
+          width: isSmallScreen ? 1 : 2,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -127,25 +180,25 @@ class SkillsSection extends StatelessWidget {
               Icon(
                 Icons.school,
                 color: Theme.of(context).colorScheme.tertiary,
-                size: 24,
+                size: isSmallScreen ? 20 : 24,
               ),
-              const SizedBox(width: 10),
+              SizedBox(width: isSmallScreen ? 8 : 10),
               Text(
                 'FORMAZIONE',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.tertiary,
-                  fontSize: 18,
+                  fontSize: isSmallScreen ? 16 : 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: isSmallScreen ? 12 : 16),
           Text(
             'LAUREA IN INFORMATICA',
             style: TextStyle(
               color: Theme.of(context).colorScheme.primary,
-              fontSize: 16,
+              fontSize: isSmallScreen ? 14 : 16,
             ),
           ),
         ],
@@ -157,14 +210,15 @@ class SkillsSection extends StatelessWidget {
     BuildContext context,
     String title,
     Map<String, double> skills,
+    bool isSmallScreen,
   ) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 20),
       decoration: BoxDecoration(
         color: Colors.black87,
         border: Border.all(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-          width: 2,
+          width: isSmallScreen ? 1 : 2,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -176,11 +230,11 @@ class SkillsSection extends StatelessWidget {
             title,
             style: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
-              fontSize: 16,
+              fontSize: isSmallScreen ? 14 : 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: isSmallScreen ? 16 : 20),
           // Lista delle competenze
           ...skills.entries.map((skill) => Column(
             children: [
@@ -188,9 +242,9 @@ class SkillsSection extends StatelessWidget {
                 children: [
                   Text(
                     skill.key,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white70,
-                      fontSize: 14,
+                      fontSize: isSmallScreen ? 12 : 14,
                     ),
                   ),
                   const Spacer(),
@@ -198,15 +252,15 @@ class SkillsSection extends StatelessWidget {
                     '${(skill.value * 100).toInt()}%',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.tertiary,
-                      fontSize: 12,
+                      fontSize: isSmallScreen ? 10 : 12,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: isSmallScreen ? 6 : 8),
               // Barra di progresso
               Container(
-                height: 4,
+                height: isSmallScreen ? 3 : 4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade900,
@@ -227,15 +281,15 @@ class SkillsSection extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-                          blurRadius: 4,
-                          spreadRadius: 1,
+                          blurRadius: isSmallScreen ? 2 : 4,
+                          spreadRadius: isSmallScreen ? 0.5 : 1,
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: isSmallScreen ? 12 : 16),
             ],
           )).toList(),
         ],

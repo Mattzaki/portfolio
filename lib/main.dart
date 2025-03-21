@@ -52,14 +52,24 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   bool _showBackToTop = false;
 
   // Lista delle altezze delle sezioni per la navigazione
-  final List<double> _sectionHeights = [0, 800, 1600, 2400, 3200];
+  List<double> _getSectionHeights(bool isSmallScreen) {
+    final baseHeight = isSmallScreen ? 400 : 600;
+    final sectionSpacing = isSmallScreen ? 50 : 100;
+    return [
+      0,                    // Home
+      baseHeight + 50,      // Chi Sono
+      baseHeight + sectionSpacing * 3,  // Progetti
+      baseHeight + sectionSpacing * 5,  // Competenze
+      baseHeight + sectionSpacing * 7,  // Contatti
+    ];
+  }
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(() {
       setState(() {
-        _showBackToTop = _scrollController.offset > 600;
+        _showBackToTop = _scrollController.offset > 300;
       });
     });
   }
@@ -71,11 +81,14 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   }
 
   void _scrollToSection(int index) {
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final sectionHeights = _getSectionHeights(isSmallScreen);
+    
     setState(() {
       _selectedIndex = index;
     });
     _scrollController.animateTo(
-      _sectionHeights[index],
+      sectionHeights[index],
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
@@ -94,6 +107,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 600;
+
     return Scaffold(
       body: SingleChildScrollView(
         controller: _scrollController,
@@ -110,40 +126,75 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                   ),
                 ),
               ),
-              child: NavigationBar(
-                backgroundColor: Colors.transparent,
-                surfaceTintColor: Colors.transparent,
-                indicatorColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                selectedIndex: _selectedIndex,
-                onDestinationSelected: _scrollToSection,
-                destinations: const [
-                  NavigationDestination(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
+              child: isSmallScreen
+                ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: NavigationBar(
+                      height: 60,
+                      backgroundColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      indicatorColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                      selectedIndex: _selectedIndex,
+                      onDestinationSelected: _scrollToSection,
+                      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+                      destinations: const [
+                        NavigationDestination(
+                          icon: Icon(Icons.home),
+                          label: 'Home',
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.person),
+                          label: 'Chi Sono',
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.work),
+                          label: 'Progetti',
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.code),
+                          label: 'Competenze',
+                        ),
+                        NavigationDestination(
+                          icon: Icon(Icons.contact_mail),
+                          label: 'Contatti',
+                        ),
+                      ],
+                    ),
+                  )
+                : NavigationBar(
+                    backgroundColor: Colors.transparent,
+                    surfaceTintColor: Colors.transparent,
+                    indicatorColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    selectedIndex: _selectedIndex,
+                    onDestinationSelected: _scrollToSection,
+                    destinations: const [
+                      NavigationDestination(
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.person),
+                        label: 'Chi Sono',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.work),
+                        label: 'Progetti',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.code),
+                        label: 'Competenze',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.contact_mail),
+                        label: 'Contatti',
+                      ),
+                    ],
                   ),
-                  NavigationDestination(
-                    icon: Icon(Icons.person),
-                    label: 'Chi Sono',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.work),
-                    label: 'Progetti',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.code),
-                    label: 'Competenze',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.contact_mail),
-                    label: 'Contatti',
-                  ),
-                ],
-              ),
             ),
             
             // Sezione Hero
             Container(
-              height: 600,
+              height: isSmallScreen ? 400 : 600,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.background,
@@ -155,7 +206,6 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               ),
               child: Stack(
                 children: [
-                  // Effetto griglia in movimento
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
@@ -171,50 +221,62 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       ),
                     ),
                   ),
-                  // Contenuto Hero
                   Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnimatedNeonText(
-                          text: 'BENVENUTO',
-                          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 8,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 16 : 32),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedNeonText(
+                            text: 'BENVENUTO',
+                            style: (isSmallScreen 
+                              ? Theme.of(context).textTheme.headlineMedium 
+                              : Theme.of(context).textTheme.displayLarge)?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: isSmallScreen ? 4 : 8,
+                              ),
+                            colors: [
+                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.secondary,
+                            ],
                           ),
-                          colors: [
-                            Theme.of(context).colorScheme.primary,
-                            Theme.of(context).colorScheme.secondary,
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        AnimatedNeonText(
-                          text: 'NEL MIO PORTFOLIO',
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            color: Colors.white,
-                            letterSpacing: 4,
+                          const SizedBox(height: 20),
+                          AnimatedNeonText(
+                            text: 'NEL MIO PORTFOLIO',
+                            style: (isSmallScreen
+                              ? Theme.of(context).textTheme.titleMedium
+                              : Theme.of(context).textTheme.headlineSmall)?.copyWith(
+                                color: Colors.white,
+                                letterSpacing: isSmallScreen ? 2 : 4,
+                              ),
+                            colors: [
+                              Theme.of(context).colorScheme.tertiary,
+                              Theme.of(context).colorScheme.primary,
+                            ],
                           ),
-                          colors: [
-                            Theme.of(context).colorScheme.tertiary,
-                            Theme.of(context).colorScheme.primary,
-                          ],
-                        ),
-                        const SizedBox(height: 40),
-                        AnimatedNeonContainer(
-                          borderColor: Theme.of(context).colorScheme.primary,
-                          borderRadius: BorderRadius.circular(4),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            child: Text(
-                              'SVILUPPATORE SOFTWARE & DESIGNER',
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
+                          const SizedBox(height: 40),
+                          AnimatedNeonContainer(
+                            borderColor: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(4),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isSmallScreen ? 12 : 20, 
+                                vertical: isSmallScreen ? 8 : 10
+                              ),
+                              child: Text(
+                                'SVILUPPATORE SOFTWARE & DESIGNER',
+                                textAlign: TextAlign.center,
+                                style: (isSmallScreen
+                                  ? Theme.of(context).textTheme.bodyMedium
+                                  : Theme.of(context).textTheme.titleMedium)?.copyWith(
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -223,21 +285,21 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
 
             // Sezioni del portfolio
             Container(
-              padding: const EdgeInsets.all(32),
+              padding: EdgeInsets.all(isSmallScreen ? 16 : 32),
               child: Column(
                 children: [
                   FadeInSection(
                     child: const AboutSection(),
                   ),
-                  const SizedBox(height: 100),
+                  SizedBox(height: isSmallScreen ? 50 : 100),
                   FadeInSection(
                     child: const ProjectsSection(),
                   ),
-                  const SizedBox(height: 100),
+                  SizedBox(height: isSmallScreen ? 50 : 100),
                   FadeInSection(
                     child: const SkillsSection(),
                   ),
-                  const SizedBox(height: 100),
+                  SizedBox(height: isSmallScreen ? 50 : 100),
                   FadeInSection(
                     child: const ContactSection(),
                   ),

@@ -6,8 +6,11 @@ class AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 600;
+
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 32),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         border: Border.all(
@@ -28,17 +31,19 @@ class AboutSection extends StatelessWidget {
             ).createShader(bounds),
             child: Text(
               'CHI SONO',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              style: (isSmallScreen
+                ? Theme.of(context).textTheme.titleLarge
+                : Theme.of(context).textTheme.headlineMedium)?.copyWith(
                 color: Colors.white,
-                letterSpacing: 4,
+                letterSpacing: isSmallScreen ? 2 : 4,
               ),
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: isSmallScreen ? 20 : 40),
           
           // Contenitore principale con effetto terminale
           Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(isSmallScreen ? 12 : 20),
             decoration: BoxDecoration(
               color: Colors.black87,
               border: Border.all(
@@ -54,48 +59,48 @@ class AboutSection extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      width: 12,
-                      height: 12,
-                      margin: const EdgeInsets.only(right: 8),
+                      width: isSmallScreen ? 8 : 12,
+                      height: isSmallScreen ? 8 : 12,
+                      margin: EdgeInsets.only(right: isSmallScreen ? 4 : 8),
                       decoration: BoxDecoration(
                         color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(isSmallScreen ? 4 : 6),
                       ),
                     ),
                     Container(
-                      width: 12,
-                      height: 12,
-                      margin: const EdgeInsets.only(right: 8),
+                      width: isSmallScreen ? 8 : 12,
+                      height: isSmallScreen ? 8 : 12,
+                      margin: EdgeInsets.only(right: isSmallScreen ? 4 : 8),
                       decoration: BoxDecoration(
                         color: Colors.yellow,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(isSmallScreen ? 4 : 6),
                       ),
                     ),
                     Container(
-                      width: 12,
-                      height: 12,
-                      margin: const EdgeInsets.only(right: 16),
+                      width: isSmallScreen ? 8 : 12,
+                      height: isSmallScreen ? 8 : 12,
+                      margin: EdgeInsets.only(right: isSmallScreen ? 8 : 16),
                       decoration: BoxDecoration(
                         color: Colors.green,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(isSmallScreen ? 4 : 6),
                       ),
                     ),
                     Text(
                       'about.txt',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
-                        fontSize: 14,
+                        fontSize: isSmallScreen ? 12 : 14,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: isSmallScreen ? 12 : 20),
                 
                 // Testo animato stile terminale
                 DefaultTextStyle(
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
-                    fontSize: 16,
+                    fontSize: isSmallScreen ? 14 : 16,
                     height: 1.5,
                   ),
                   child: AnimatedTextKit(
@@ -117,15 +122,17 @@ class AboutSection extends StatelessWidget {
                     displayFullTextOnTap: true,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: isSmallScreen ? 12 : 20),
                 
                 // Stats in stile retro-game
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Wrap(
+                  spacing: isSmallScreen ? 8 : 16,
+                  runSpacing: isSmallScreen ? 16 : 20,
+                  alignment: WrapAlignment.spaceAround,
                   children: [
-                    _buildStatItem(context, 'CREATIVITÀ', 85),
-                    _buildStatItem(context, 'CODING', 90),
-                    _buildStatItem(context, 'PROBLEM SOLVING', 88),
+                    _buildStatItem(context, 'CREATIVITÀ', 85, isSmallScreen),
+                    _buildStatItem(context, 'CODING', 90, isSmallScreen),
+                    _buildStatItem(context, 'PROBLEM SOLVING', 88, isSmallScreen),
                   ],
                 ),
               ],
@@ -136,20 +143,21 @@ class AboutSection extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(BuildContext context, String label, int value) {
+  Widget _buildStatItem(BuildContext context, String label, int value, bool isSmallScreen) {
     return Column(
       children: [
         Text(
           label,
           style: TextStyle(
             color: Theme.of(context).colorScheme.tertiary,
-            fontSize: 12,
+            fontSize: isSmallScreen ? 10 : 12,
           ),
+          textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: isSmallScreen ? 4 : 8),
         Container(
-          width: 100,
-          height: 20,
+          width: isSmallScreen ? 80 : 100,
+          height: isSmallScreen ? 16 : 20,
           decoration: BoxDecoration(
             border: Border.all(
               color: Theme.of(context).colorScheme.primary,
@@ -160,7 +168,7 @@ class AboutSection extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                width: 100 * (value / 100),
+                width: (isSmallScreen ? 80 : 100) * (value / 100),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -173,9 +181,9 @@ class AboutSection extends StatelessWidget {
               Center(
                 child: Text(
                   '$value%',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 12,
+                    fontSize: isSmallScreen ? 10 : 12,
                   ),
                 ),
               ),

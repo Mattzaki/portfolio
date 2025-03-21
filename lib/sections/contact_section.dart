@@ -6,8 +6,11 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 600;
+
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 32),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         border: Border.all(
@@ -28,22 +31,24 @@ class ContactSection extends StatelessWidget {
             ).createShader(bounds),
             child: Text(
               'CONTATTI',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              style: (isSmallScreen
+                ? Theme.of(context).textTheme.titleLarge
+                : Theme.of(context).textTheme.headlineMedium)?.copyWith(
                 color: Colors.white,
-                letterSpacing: 4,
+                letterSpacing: isSmallScreen ? 2 : 4,
               ),
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: isSmallScreen ? 20 : 40),
 
           // Container principale dei contatti
           Container(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(isSmallScreen ? 16 : 24),
             decoration: BoxDecoration(
               color: Colors.black87,
               border: Border.all(
                 color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-                width: 2,
+                width: isSmallScreen ? 1 : 2,
               ),
               borderRadius: BorderRadius.circular(8),
             ),
@@ -56,8 +61,9 @@ class ContactSection extends StatelessWidget {
                   title: 'EMAIL',
                   value: 'matteo.zacchino2000@gmail.com',
                   onCopy: () => _copyToClipboard(context, 'matteo.zacchino2000@gmail.com'),
+                  isSmallScreen: isSmallScreen,
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: isSmallScreen ? 16 : 24),
                 
                 // Telefono
                 _buildContactItem(
@@ -66,6 +72,7 @@ class ContactSection extends StatelessWidget {
                   title: 'TELEFONO',
                   value: '+39 331 230 1423',
                   onCopy: () => _copyToClipboard(context, '3312301423'),
+                  isSmallScreen: isSmallScreen,
                 ),
               ],
             ),
@@ -81,9 +88,10 @@ class ContactSection extends StatelessWidget {
     required String title,
     required String value,
     required VoidCallback onCopy,
+    required bool isSmallScreen,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
       decoration: BoxDecoration(
         border: Border.all(
           color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
@@ -100,56 +108,76 @@ class ContactSection extends StatelessWidget {
               Icon(
                 icon,
                 color: Theme.of(context).colorScheme.primary,
-                size: 20,
+                size: isSmallScreen ? 16 : 20,
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: isSmallScreen ? 6 : 8),
               Text(
                 title,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
-                  fontSize: 14,
+                  fontSize: isSmallScreen ? 12 : 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: isSmallScreen ? 8 : 12),
           // Valore e pulsante copia
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 14,
+          if (isSmallScreen)
+            Column(
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: isSmallScreen ? 12 : 14,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(width: 8),
-              MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onCopy,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Icon(
-                      Icons.copy,
-                      color: Theme.of(context).colorScheme.secondary,
-                      size: 16,
-                    ),
+                const SizedBox(height: 8),
+                _buildCopyButton(context, onCopy, isSmallScreen),
+              ],
+            )
+          else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  value,
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: isSmallScreen ? 12 : 14,
                   ),
                 ),
-              ),
-            ],
-          ),
+                SizedBox(width: isSmallScreen ? 6 : 8),
+                _buildCopyButton(context, onCopy, isSmallScreen),
+              ],
+            ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCopyButton(BuildContext context, VoidCallback onCopy, bool isSmallScreen) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onCopy,
+        child: Container(
+          padding: EdgeInsets.all(isSmallScreen ? 3 : 4),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Icon(
+            Icons.copy,
+            color: Theme.of(context).colorScheme.secondary,
+            size: isSmallScreen ? 14 : 16,
+          ),
+        ),
       ),
     );
   }
@@ -162,6 +190,7 @@ class ContactSection extends StatelessWidget {
           'Copiato negli appunti!',
           style: TextStyle(
             color: Theme.of(context).colorScheme.tertiary,
+            fontSize: MediaQuery.of(context).size.width < 600 ? 12 : 14,
           ),
         ),
         backgroundColor: Colors.black87,

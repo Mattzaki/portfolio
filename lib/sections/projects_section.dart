@@ -5,8 +5,11 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isSmallScreen = screenSize.width < 600;
+
     return Container(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isSmallScreen ? 16 : 32),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         border: Border.all(
@@ -27,22 +30,24 @@ class ProjectsSection extends StatelessWidget {
             ).createShader(bounds),
             child: Text(
               'PROGETTI',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              style: (isSmallScreen
+                ? Theme.of(context).textTheme.titleLarge
+                : Theme.of(context).textTheme.headlineMedium)?.copyWith(
                 color: Colors.white,
-                letterSpacing: 4,
+                letterSpacing: isSmallScreen ? 2 : 4,
               ),
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: isSmallScreen ? 20 : 40),
 
           // Griglia dei progetti
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 20,
-            crossAxisSpacing: 20,
-            childAspectRatio: 1.5,
+            crossAxisCount: isSmallScreen ? 1 : 2,
+            mainAxisSpacing: isSmallScreen ? 16 : 20,
+            crossAxisSpacing: isSmallScreen ? 16 : 20,
+            childAspectRatio: isSmallScreen ? 1.2 : 1.5,
             children: [
               _buildProjectCard(
                 context,
@@ -50,6 +55,7 @@ class ProjectsSection extends StatelessWidget {
                 'Descrizione breve del progetto 1',
                 ['Flutter', 'Dart', 'Firebase'],
                 'https://picsum.photos/seed/1/400/300',
+                isSmallScreen,
               ),
               _buildProjectCard(
                 context,
@@ -57,6 +63,7 @@ class ProjectsSection extends StatelessWidget {
                 'Descrizione breve del progetto 2',
                 ['React', 'Node.js', 'MongoDB'],
                 'https://picsum.photos/seed/2/400/300',
+                isSmallScreen,
               ),
               _buildProjectCard(
                 context,
@@ -64,6 +71,7 @@ class ProjectsSection extends StatelessWidget {
                 'Descrizione breve del progetto 3',
                 ['Python', 'Django', 'PostgreSQL'],
                 'https://picsum.photos/seed/3/400/300',
+                isSmallScreen,
               ),
               _buildProjectCard(
                 context,
@@ -71,6 +79,7 @@ class ProjectsSection extends StatelessWidget {
                 'Descrizione breve del progetto 4',
                 ['Vue.js', 'Express', 'MySQL'],
                 'https://picsum.photos/seed/4/400/300',
+                isSmallScreen,
               ),
             ],
           ),
@@ -85,6 +94,7 @@ class ProjectsSection extends StatelessWidget {
     String description,
     List<String> technologies,
     String imageUrl,
+    bool isSmallScreen,
   ) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -96,7 +106,7 @@ class ProjectsSection extends StatelessWidget {
             color: Colors.black87,
             border: Border.all(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
-              width: 2,
+              width: isSmallScreen ? 1 : 2,
             ),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -113,7 +123,7 @@ class ProjectsSection extends StatelessWidget {
               ),
               // Contenuto della card
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(isSmallScreen ? 12 : 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -122,28 +132,28 @@ class ProjectsSection extends StatelessWidget {
                       title,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
-                        fontSize: 18,
+                        fontSize: isSmallScreen ? 16 : 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: isSmallScreen ? 4 : 8),
                     // Descrizione
                     Text(
                       description,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 14,
+                        fontSize: isSmallScreen ? 12 : 14,
                       ),
                     ),
                     const Spacer(),
                     // Tecnologie utilizzate
                     Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+                      spacing: isSmallScreen ? 4 : 8,
+                      runSpacing: isSmallScreen ? 4 : 8,
                       children: technologies.map((tech) => Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isSmallScreen ? 6 : 8,
+                          vertical: isSmallScreen ? 2 : 4,
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -156,7 +166,7 @@ class ProjectsSection extends StatelessWidget {
                           tech,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 12,
+                            fontSize: isSmallScreen ? 10 : 12,
                           ),
                         ),
                       )).toList(),
