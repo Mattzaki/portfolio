@@ -869,17 +869,27 @@ Please change the parent <Route path="${_}"> to <Route path="${_==="/"?"*":`${_}
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
+  opacity: 0.8;
+  box-shadow: 0 0 10px var(--neon-pink);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `,uD=it(ft.div)`
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border: 2px solid var(--neon-blue);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
-`,cD=()=>{const[n,a]=D.useState({x:0,y:0}),[r,s]=D.useState(!1);D.useEffect(()=>{const d=h=>{a({x:h.clientX,y:h.clientY})},p=h=>{const m=h.target;m.tagName==="A"||m.tagName==="BUTTON"||m.closest('[role="button"]')||m.closest(".clickable")?s(!0):s(!1)};return window.addEventListener("mousemove",d),window.addEventListener("mouseover",p),()=>{window.removeEventListener("mousemove",d),window.removeEventListener("mouseover",p)}},[]);const u={default:{x:n.x-4,y:n.y-4,transition:{type:"spring",mass:.3}},hover:{x:n.x-4,y:n.y-4,scale:2,transition:{type:"spring",mass:.3}}},f={default:{x:n.x-20,y:n.y-20,scale:1,transition:{type:"spring",mass:.3}},hover:{x:n.x-20,y:n.y-20,scale:1.5,transition:{type:"spring",mass:.3}}};return k.jsxs(k.Fragment,{children:[k.jsx(oD,{variants:u,animate:r?"hover":"default"}),k.jsx(uD,{variants:f,animate:r?"hover":"default"})]})},fD=it.div`
+  opacity: 0.5;
+  box-shadow: 0 0 10px var(--neon-blue);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`,cD=()=>{const[n,a]=D.useState({x:0,y:0}),[r,s]=D.useState(!1);return D.useEffect(()=>{if(window.matchMedia("(min-width: 769px)").matches){const u=f=>{a({x:f.clientX,y:f.clientY}),r||s(!0)};return window.addEventListener("mousemove",u),window.addEventListener("mouseenter",()=>s(!0)),window.addEventListener("mouseleave",()=>s(!1)),()=>{window.removeEventListener("mousemove",u),window.removeEventListener("mouseenter",()=>s(!0)),window.removeEventListener("mouseleave",()=>s(!1))}}},[r]),!r||window.matchMedia("(max-width: 768px)").matches?null:k.jsxs(k.Fragment,{children:[k.jsx(oD,{animate:{x:n.x-4,y:n.y-4},transition:{type:"spring",stiffness:500,damping:28}}),k.jsx(uD,{animate:{x:n.x-16,y:n.y-16},transition:{type:"spring",stiffness:300,damping:20}})]})},fD=it.div`
   position: relative;
   min-height: 100vh;
   width: 100vw;
