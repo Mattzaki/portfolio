@@ -24,7 +24,7 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     background-color: var(--dark-bg);
     overflow-x: hidden;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
   }
 
@@ -37,7 +37,7 @@ const GlobalStyles = createGlobalStyle`
   #root {
     background-color: var(--dark-bg);
     min-height: 100vh;
-    width: 100vw;
+    width: 100%;
     overflow-x: hidden;
     position: relative;
   }

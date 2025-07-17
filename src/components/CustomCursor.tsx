@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 const CursorDot = styled(motion.div)`
   width: 8px;
@@ -10,98 +10,71 @@ const CursorDot = styled(motion.div)`
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
+  opacity: 0.8;
+  box-shadow: 0 0 10px var(--neon-pink);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const CursorRing = styled(motion.div)`
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border: 2px solid var(--neon-blue);
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
+  opacity: 0.5;
+  box-shadow: 0 0 10px var(--neon-blue);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
+    // Only add event listeners if not on mobile
+    if (window.matchMedia('(min-width: 769px)').matches) {
+      const updateMousePosition = (e: MouseEvent) => {
+        setMousePosition({ x: e.clientX, y: e.clientY });
+        if (!isVisible) setIsVisible(true);
+      };
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === 'A' || target.tagName === 'BUTTON' || 
-          target.closest('[role="button"]') || target.closest('.clickable')) {
-        setIsHovered(true);
-      } else {
-        setIsHovered(false);
-      }
-    };
+      window.addEventListener('mousemove', updateMousePosition);
+      window.addEventListener('mouseenter', () => setIsVisible(true));
+      window.addEventListener('mouseleave', () => setIsVisible(false));
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
-    };
-  }, []);
-
-  const variants = {
-    default: {
-      x: mousePosition.x - 4,
-      y: mousePosition.y - 4,
-      transition: {
-        type: "spring",
-        mass: 0.3
-      }
-    },
-    hover: {
-      x: mousePosition.x - 4,
-      y: mousePosition.y - 4,
-      scale: 2,
-      transition: {
-        type: "spring",
-        mass: 0.3
-      }
+      return () => {
+        window.removeEventListener('mousemove', updateMousePosition);
+        window.removeEventListener('mouseenter', () => setIsVisible(true));
+        window.removeEventListener('mouseleave', () => setIsVisible(false));
+      };
     }
-  };
+  }, [isVisible]);
 
-  const ringVariants = {
-    default: {
-      x: mousePosition.x - 20,
-      y: mousePosition.y - 20,
-      scale: 1,
-      transition: {
-        type: "spring",
-        mass: 0.3
-      }
-    },
-    hover: {
-      x: mousePosition.x - 20,
-      y: mousePosition.y - 20,
-      scale: 1.5,
-      transition: {
-        type: "spring",
-        mass: 0.3
-      }
-    }
-  };
+  if (!isVisible || window.matchMedia('(max-width: 768px)').matches) return null;
 
   return (
     <>
       <CursorDot
-        variants={variants}
-        animate={isHovered ? "hover" : "default"}
+        animate={{
+          x: mousePosition.x - 4,
+          y: mousePosition.y - 4,
+        }}
+        transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
       <CursorRing
-        variants={ringVariants}
-        animate={isHovered ? "hover" : "default"}
+        animate={{
+          x: mousePosition.x - 16,
+          y: mousePosition.y - 16,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
       />
     </>
   );

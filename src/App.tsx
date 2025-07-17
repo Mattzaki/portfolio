@@ -16,14 +16,14 @@ import './App.css';
 const AppContainer = styled.div`
   position: relative;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: var(--dark-bg);
   overflow-x: hidden;
 `;
 
 const MainContent = styled(motion.main)`
   position: relative;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   background-color: var(--dark-bg);
@@ -66,7 +66,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
+    <Router basename="/portfolio">
       <GlobalStyles />
       <AppContainer>
         <CustomCursor />

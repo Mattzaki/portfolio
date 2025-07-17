@@ -105,6 +105,7 @@ const HamburgerButton = styled.button<{ isOpen: boolean }>`
   cursor: pointer;
   padding: 0;
   z-index: 10;
+  outline: none;
 
   span {
     width: 2rem;

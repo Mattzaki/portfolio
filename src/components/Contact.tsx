@@ -250,8 +250,8 @@ const Contact = () => {
     }
   };
 
-  const email = "email@example.com";
-  const phone = "+39 123 456 7890";
+  const email = "matteo.zacchino2000@gmail.com";
+  const phone = "+39 331 230 1423";
 
   return (
     <ContactSection id="contact" ref={ref}>
@@ -323,7 +323,7 @@ const Contact = () => {
 
         <SocialLinks>
           <SocialLink 
-            href="https://linkedin.com/in/yourprofile" 
+            href="https://www.linkedin.com/in/matteo-zacchino-bb674218b/" 
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
@@ -332,7 +332,7 @@ const Contact = () => {
             LinkedIn
           </SocialLink>
           <SocialLink 
-            href="https://github.com/yourusername" 
+            href="https://github.com/MatteoZak" 
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
@@ -340,7 +340,7 @@ const Contact = () => {
           >
             GitHub
           </SocialLink>
-          <SocialLink 
+          {/* <SocialLink 
             href="/your-cv.pdf" 
             target="_blank"
             rel="noopener noreferrer"
@@ -348,7 +348,7 @@ const Contact = () => {
             whileTap={{ scale: 0.95 }}
           >
             Resume
-          </SocialLink>
+          </SocialLink> */}
         </SocialLinks>
       </ContactCard>
     </ContactSection>
