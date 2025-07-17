@@ -105,10 +105,10 @@ const Skills = () => {
       "C", "C++", "JavaScript", "TypeScript", "Python", "Java"
     ],
     "Web Technologies": [
-      "Angular", "React", "WordPress", "Ionic"
+      "Angular", "Ionic", "HTML", "CSS", "Tailwind CSS"
     ],
     "AI & Machine Learning": [
-      "PyTorch"
+      "PyTorch", "PyTorch Lightning", "TensorFlow",
     ],
     "Databases": [
       "MySQL"

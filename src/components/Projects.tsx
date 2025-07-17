@@ -1,6 +1,10 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import Carousel from './Carousel';
+import gestureRecognitionImg from '../assets/images/Gesture_Recognition.jpg';
+import earthDefendersImg from '../assets/images/hearth-defenders.png';
+import greenliveryImg from '../assets/images/greenlivery.jpg';
+import junoImg from '../assets/images/juno.png';
+import poissonDiscSamplingImg from '../assets/images/poisson_disc_sampling.jpg';
 
 const ProjectsSection = styled.section`
   min-height: 100vh;
@@ -181,36 +185,36 @@ const Projects = () => {
     {
       title: "EgoGesture Recognition",
       description: "The proposed work primarily concentrates on offline gesture recognition as detailed in the paper. The objective is to benchmark several lightweight models, such as ShuffleNet, and compare their performance to the heavier ResNeXt model featured in the study.",
-      image: "../assets/images/Gesture_Recognition.jpg",
-      tech: ["Computer Vision", "Python", "PyTorch", "PyTorch Lightning", "Jupyter", "Machine Learning", "Gesture Recognition"],
+      image: gestureRecognitionImg,
+      tech: ["Computer Vision", "Python", "PyTorch", "PyTorch Lightning", "Jupyter Notebook"],
       githubLink: "https://github.com/Nhix00/EgoGesture_Recognition"
     },
     {
       title: "Earth-Defenders",
       description: "Earth-Defenders is a web application that allows users to create an account and challenge each other playing on a revisited version of the famous game 'Space Invaders'. There is also a score system to track player performance and a leaderboard to showcase the top players. The game is developed using Javascript, HTML and CSS for the Frontend and PHP for the Backend, with a MySQL database to store user data and scores. In the homepage there are several 3D object that can be interacted with, and a parallax effect is applied to the background to create a more immersive experience. Three.js is used to create the 3D objects and the parallax effect.",
-      image: "../assets/images/hearth-defenders.png",
-      tech: ["JavaScript", "HTML", "CSS", "PHP", "MySQL", "Game Development", "Web Application", "User Authentication", "Three.js", "Parallax Effect", "3D Graphics"],
+      image: earthDefendersImg,
+      tech: ["JavaScript", "HTML", "CSS", "PHP", "MySQL", "Three.js"],
       githubLink: "https://github.com/Flavio0410/Earth-Defenders"
     },
     {
       title: "Greenlivery",
       description: "Greenlivery is an UI kit in figma iPhone app that provides eco-friendly delivery options to its users. With its user-friendly interface, real-time GPS tracking, and option to choose environmentally conscious delivery methods, greenlivery aims to make deliveries convenient and sustainable.",
-      image: "../assets/images/greenlivery.png",
-      tech: ["Figma", "UI/UX Design", "Prototyping", "Mobile App Design", "iOS", "Android", "UI Kit"],
+      image: greenliveryImg,
+      tech: ["Figma", "UI/UX Design", "Prototyping", "Mobile App Design", "iOS", "Android"],
       githubLink: "https://github.com/Flavio0410/Greenlivery"
     },
 
     {
       title: "Juno",
       description: "Representation of the famous card game Uno, developed with Java ( Java Uno ). The game is revisited with new game modes and a Pokémon style, with special Pokèmon style cards, gamemodes and scenarios.",
-      image: "../assets/images/Juno.png",
+      image: junoImg,
       tech: ["Java", "JavaFX", "Game Development", "Design Patterns"],
       githubLink: "https://github.com/MatteoZak/Juno"
     },
     {
       title: "Poisson Disc Sampling",
       description: "Poisson Disc Sampling is a technique used to generate a set of points that are evenly distributed in a given area, with a minimum distance between them. This project implements the algorithm in Python using the Pygame library for visualization. The algorithm is efficient and can generate a large number of points in a short time, making it suitable for applications such as procedural generation in games and simulations. A script for Blender is also provided to visualize the generated points in a 3D environment like spheres or like trees for example.",
-      image: "../assets/images/poisson_disc_sampling.jpg",
+      image: poissonDiscSamplingImg,
       tech: ["Python", "Pygame", "Blender", "Procedural Generation", "Game Development", "Simulation", "Computer Graphics"],
       githubLink: "https://github.com/Mattzaki/Poisson_Disc_Sampling"
     }
@@ -226,7 +230,7 @@ const Projects = () => {
     }
   };
 
-  const cardVariants = {
+  /*const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
@@ -235,7 +239,7 @@ const Projects = () => {
         duration: 0.5
       }
     }
-  };
+  };*/
 
   const tagVariants = {
     hidden: { opacity: 0, scale: 0.8 },
@@ -259,7 +263,7 @@ const Projects = () => {
         My Projects
       </Title>
 
-      <Carousel />
+      {/* <Carousel /> */}
 
       <ProjectsGrid
         variants={containerVariants}

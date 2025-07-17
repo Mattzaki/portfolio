@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
 
 const ContactSection = styled.section`
-  min-height: 100vh;
   padding: 6rem 2rem;
   position: relative;
   z-index: 2;
