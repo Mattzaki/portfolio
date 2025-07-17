@@ -40,7 +40,7 @@ const Description = styled(motion.p)`
 const ScrollIndicator = styled(motion.div)`
   position: absolute;
   bottom: 2rem;
-  left: 42%;
+  left: 50vw;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
