@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import gestureRecognitionImg from '../assets/images/Gesture_Recognition.jpg';
 import earthDefendersImg from '../assets/images/hearth-defenders.png';
-import greenliveryImg from '../assets/images/greenlivery.jpg';
+import greenliveryImg from '../assets/images/greenlivery.png';
 import junoImg from '../assets/images/juno.png';
 import poissonDiscSamplingImg from '../assets/images/poisson_disc_sampling.jpg';
 
