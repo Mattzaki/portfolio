@@ -291,7 +291,7 @@ const Contact = () => {
             </ContactText>
           </ContactItem>
           <ContactItem>
-            <ContactText>
+            {/* <ContactText>
               <span className="emoji">📱</span>
               <span className="content">{phone}</span>
               <CopyButton
@@ -310,7 +310,7 @@ const Contact = () => {
                   </Tooltip>
                 )}
               </CopyButton>
-            </ContactText>
+            </ContactText> */}
           </ContactItem>
           <ContactItem>
             <ContactText>
