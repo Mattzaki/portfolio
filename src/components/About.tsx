@@ -128,11 +128,11 @@ const About = () => {
   const cards = [
     {
       title: "Who I Am",
-      content: "A Frontend Developer based in Cisterna di Latina (LT), Italy, currently pursuing my studies in Computer Science. I combine my technical skills with a deep interest in artificial intelligence and modern web technologies."
+      content: "A Frontend Developer based in Cisterna di Latina (LT), Italy, currently pursuing my studies in Computer Science at Sapienza University of Rome. I combine my technical skills with a deep interest in artificial intelligence and modern web technologies."
     },
     {
       title: "What I Do",
-      content: "I specialize in building responsive and performant web applications using React and modern JavaScript. My computer science background allows me to approach problems with a solid theoretical foundation."
+      content: "I specialize in building responsive and performant web applications using Angular and modern Typescript. My computer science background allows me to approach problems with a solid theoretical foundation."
     },
     {
       title: "My Focus",
