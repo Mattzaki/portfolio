@@ -250,7 +250,7 @@ const Contact = () => {
   };
 
   const email = "matteo.zacchino2000@gmail.com";
-  const phone = "+39 331 230 1423";
+  //const phone = "+39 331 230 1423";
 
   return (
     <ContactSection id="contact" ref={ref}>
