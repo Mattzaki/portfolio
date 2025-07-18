@@ -48,6 +48,10 @@ const ScrollIndicator = styled(motion.div)`
   gap: 0.5rem;
   color: var(--text-secondary);
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    left: 42vw;
+  }
 `;
 
 const Hero = () => {
